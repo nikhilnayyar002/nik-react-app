@@ -1,0 +1,25 @@
+@import '~bootstrap/scss/bootstrap.scss';
+
+$primary-color:#343a40;
+$secondary-color:#ffffff80;
+$hover-color:white;
+$bg-image:'assets/sample.jpg';
+$footer-height:28px;
+$nav-link-padding:25px;
+/*  padding + avg height of elements + custom */
+$navbar-height-lg: 16px + 34px + 2 * $nav-link-padding;
+$navbar-height: 16px + 40px;
+$page-bg:#020202f0;
+
+@mixin page-default() {
+    height: calc(100vh - #{$navbar-height-lg + $footer-height});
+    background: $page-bg;
+    color:$secondary-color;
+    padding: 25px;
+    @media (max-width: 992px) {
+        & {
+            height: calc(100vh - #{$navbar-height + $footer-height});
+        }
+      }
+}
+
