@@ -57,7 +57,7 @@ app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, "build")));
 app.enable('trust proxy');
 app.use(function(req, res, next) {
-  if (req.secure) {
+  if (req.protocol == 'https') {
     // request was via https, so do no special handling
     next();
   } else {
