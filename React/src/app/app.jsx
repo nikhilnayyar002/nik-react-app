@@ -42,6 +42,10 @@ class AppComponent extends React.Component {
 
     logout() {
         localStorage.removeItem('token');
+        this.setState({
+            isLoggedIn: false,
+            user: null
+        })
         // window.location.href = window.location.origin + '/'
     }
 
