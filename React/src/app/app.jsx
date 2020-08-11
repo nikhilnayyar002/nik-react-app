@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import config from '../data/app.config';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import HomeComponent from './home';
@@ -48,20 +48,31 @@ class AppComponent extends React.Component {
     logIn(cred) {
         return postData(config.api.base + config.api.signInPath, cred)
             .then(data => {
-                localStorage.setItem('token', data.token);
-                return getData(config.api.base + config.api.userProfilePath)
-                    .then(data => {
-                        if (data && data.status)
-                            this.setState({
-                                isLoggedIn: true,
-                                user: data.user
+                if (data && data.status) {
+                    localStorage.setItem('token', data.token);
+                    return getData(config.api.base + config.api.userProfilePath)
+                        .then(data => {
+                            if (data && data.status)
+                                this.setState({
+                                    isLoggedIn: true,
+                                    user: data.user
+                                })
+                            else
+                                this.setState({
+                                    isLoggedIn: false,
+                                    user: null
+                                })
+                            return Promise.resolve({
+                                status: data.status,
+                                message: data.message
                             })
-                        else
-                            this.setState({
-                                isLoggedIn: false,
-                                user: null
-                            })
-                    });
+                        });
+                } else {
+                    return Promise.resolve({
+                        status: false,
+                        message: data.message
+                    })
+                }
             })
             .catch(error => alert(error));
     }
@@ -78,8 +89,14 @@ class AppComponent extends React.Component {
                         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div className="navbar-nav">
                                 <Link className="nav-item nav-link active" to="/">Home</Link>
-                                <Link className="nav-item nav-link" to="/dashboard">DashBoard</Link>
-                                <Link className="nav-item nav-link" to="/profile">Profile</Link>
+                                {
+                                    this.state.isLoggedIn ? (
+                                        <Fragment>
+                                            <Link className="nav-item nav-link" to="/dashboard">DashBoard</Link>
+                                            <Link className="nav-item nav-link" to="/profile">Profile</Link>
+                                        </Fragment>
+                                    ) : null
+                                }
                             </div>
                             {
                                 this.state.isLoggedIn ? (

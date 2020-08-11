@@ -11,7 +11,9 @@ function postData(url = '', data = {}) {
         },
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     })
-        .then(response => response.json()); // parses JSON response into native Javascript objects 
+    .then(response => {
+        return response.json()
+    }); // parses JSON response into native Javascript objects 
 }
 function getData(url = '') {
     // Default options are marked with *

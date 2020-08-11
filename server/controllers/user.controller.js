@@ -11,14 +11,13 @@ module.exports.register = (req, res, next) => {
     user.password = req.body.password;
     user.save((err, doc) => {
         if (!err)
-            res.send(doc);
+            res.status(200).json({status:true, doc});
         else {
             if (err.code == 11000)
-                res.status(422).send(['Duplicate email adrress found.']);
+                res.status(422).json({ status:false, message:'Duplicate email adrress found.' });
             else
                 return next(err);
         }
-
     });
 }
 
@@ -28,7 +27,7 @@ module.exports.authenticate = (req, res, next) => {
         // error from passport middleware
         if (err) return res.status(400).json(err);
         // registered user
-        else if (user) return res.status(200).json({ "token": user.generateJwt() });
+        else if (user) return res.status(200).json({ status:true, "token": user.generateJwt() });
         // unknown user or wrong password
         else return res.status(404).json(info);
     })(req, res);
