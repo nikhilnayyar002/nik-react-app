@@ -83,7 +83,7 @@ class AppComponent extends React.Component {
                             </div>
                             {
                                 this.state.isLoggedIn ? (
-                                    <Link to="/signup" className="btn btn-dark btn-outline-light ml-auto" onClick={this.logout}>LogOut</Link>
+                                    <Link to="/signin" className="btn btn-dark btn-outline-light ml-auto" onClick={this.logout}>LogOut</Link>
                                 ) : (
                                         <Link to="/signin" className="btn btn-dark btn-outline-light ml-auto">SignIn</Link>
                                     )
